@@ -89,8 +89,7 @@ export function WeekOverview({ notes, onClose, onNoteClick }: WeekOverviewProps)
     <div className="fixed inset-0 bg-white z-[9999] flex flex-col">
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-gray-800 text-white px-6 py-3 flex items-center justify-between shadow-lg">
-          <h2 className="text-xl font-bold">Weekoverzicht Deadlines</h2>
+        <div className="bg-gray-800 text-white px-6 py-3 flex items-center gap-4 shadow-lg">
           <button
             onClick={onClose}
             className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
@@ -100,6 +99,7 @@ export function WeekOverview({ notes, onClose, onNoteClick }: WeekOverviewProps)
             </svg>
             <span>Terug</span>
           </button>
+          <h2 className="text-xl font-bold">Weekoverzicht Deadlines</h2>
         </div>
 
         {/* Columns - 5 workdays */}
