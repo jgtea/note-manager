@@ -18,7 +18,7 @@ export interface CreateNoteData {
   email_received_at?: string
 }
 
-export function useNotes() {
+export function useNotes(viewUserId?: string | null) {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -28,10 +28,17 @@ export function useNotes() {
     if (!user) return
 
     setLoading(true)
-    const { data, error } = await supabase
+
+    // Build query - if viewUserId is provided, filter by that user
+    let query = supabase
       .from('notes')
       .select('*')
-      .order('z_index', { ascending: false })
+
+    if (viewUserId) {
+      query = query.eq('user_id', viewUserId)
+    }
+
+    const { data, error } = await query.order('z_index', { ascending: false })
 
     if (error) {
       setError(error.message)
@@ -39,7 +46,7 @@ export function useNotes() {
       setNotes((data as Note[]) || [])
     }
     setLoading(false)
-  }, [user])
+  }, [user, viewUserId])
 
   useEffect(() => {
     fetchNotes()

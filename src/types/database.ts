@@ -1,6 +1,16 @@
 export type NoteType = 'offerte' | 'onderzoek' | 'overige'
 export type NoteStatus = 'nieuw' | 'in_behandeling' | 'afgerond' | 'archief'
 export type DeadlineType = 'must' | 'ca'
+export type UserRole = 'user' | 'supervisor'
+
+export interface UserProfile {
+  id: string
+  email: string
+  display_name: string
+  role: UserRole
+  last_login: string | null
+  created_at: string
+}
 
 export interface Note {
   id: string
