@@ -89,28 +89,29 @@ export function WeekOverview({ notes, onClose, onNoteClick }: WeekOverviewProps)
     <div className="fixed inset-0 bg-white z-[9999] flex flex-col">
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-gray-800 text-white px-6 py-3 flex items-center gap-4 shadow-lg">
+        <div className="bg-gray-800 text-white px-3 sm:px-6 py-3 flex items-center gap-2 sm:gap-4 shadow-lg">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span>Terug</span>
+            <span className="hidden sm:inline">Terug</span>
           </button>
-          <h2 className="text-xl font-bold">Weekoverzicht Deadlines</h2>
+          <h2 className="text-base sm:text-xl font-bold">Weekoverzicht</h2>
         </div>
 
         {/* Columns - 5 workdays */}
-        <div className="flex-1 overflow-auto p-6">
-          <div className="grid grid-cols-5 gap-4 h-full">
+        <div className="flex-1 overflow-auto p-2 sm:p-6">
+          {/* Mobile: horizontal scroll, Desktop: grid */}
+          <div className="flex gap-3 sm:gap-4 h-full overflow-x-auto sm:overflow-x-visible pb-4 sm:pb-0 snap-x snap-mandatory sm:snap-none sm:grid sm:grid-cols-5">
             {days.map(day => {
               const dayNotes = getNotesForDay(day.dateString)
               return (
                 <div
                   key={day.dateString}
-                  className={`flex flex-col rounded-lg border-2 ${getColumnColor(day.index, day.isToday)}`}
+                  className={`flex flex-col rounded-lg border-2 min-w-[200px] sm:min-w-0 flex-shrink-0 sm:flex-shrink snap-start ${getColumnColor(day.index, day.isToday)}`}
                 >
                   {/* Day header */}
                   <div className={`px-3 py-2 rounded-t-md ${getHeaderColor(day.index, day.isToday)}`}>
