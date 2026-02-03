@@ -35,8 +35,8 @@ export function CreateNoteForm({ onSubmit, onCancel, initialEmailData }: CreateN
       note_type: noteType,
       note_type_other: noteType === 'overige' ? noteTypeOther : undefined,
       remarks: remarks || undefined,
-      deadline: deadline || undefined,
-      deadline_type: deadlineType || undefined,
+      deadline: deadline,
+      deadline_type: deadlineType as 'must' | 'ca',
       email_content: initialEmailData?.content,
       email_subject: initialEmailData?.subject,
       email_from: initialEmailData?.from,
@@ -159,11 +159,12 @@ export function CreateNoteForm({ onSubmit, onCancel, initialEmailData }: CreateN
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Deadline Type
+                Deadline Type *
               </label>
               <select
                 value={deadlineType}
                 onChange={(e) => setDeadlineType(e.target.value as DeadlineType | '')}
+                required
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none font-bold ${
                   deadlineType === 'must'
                     ? 'bg-red-50 border-red-400 text-red-700'
@@ -172,20 +173,21 @@ export function CreateNoteForm({ onSubmit, onCancel, initialEmailData }: CreateN
                       : 'border-gray-300'
                 }`}
               >
-                <option value="">-</option>
+                <option value="">Selecteer...</option>
                 <option value="must">Must</option>
                 <option value="ca">Ca.</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Deadline
+                Deadline *
               </label>
               <input
                 type="date"
                 value={deadline}
                 onChange={(e) => setDeadline(e.target.value)}
                 onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
+                required
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none cursor-pointer font-bold ${
                   deadlineType === 'must'
                     ? 'bg-red-50 border-red-400 text-red-700'

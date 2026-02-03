@@ -4,6 +4,8 @@ import { StickyNote } from './StickyNote'
 import { CreateNoteForm } from './CreateNoteForm'
 import { NoteDetailModal } from './NoteDetailModal'
 import { Calendar } from './Calendar'
+import { DeadlineCounters } from './DeadlineCounters'
+import { WeekOverview } from './WeekOverview'
 import { useNotes, type CreateNoteData } from '../hooks/useNotes'
 import { parseEmailFile, type ParsedEmail } from '../lib/emailParser'
 import type { Note, NoteStatus } from '../types/database'
@@ -23,6 +25,7 @@ export function Board({ onSignOut }: BoardProps) {
   const [companyFilter, setCompanyFilter] = useState<string | null>(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [dateFilter, setDateFilter] = useState<string | null>(null)
+  const [showWeekOverview, setShowWeekOverview] = useState(false)
 
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
   const SPECIAL_BUTTONS: Record<string, string[]> = {
@@ -295,6 +298,10 @@ export function Board({ onSignOut }: BoardProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </button>
+            <DeadlineCounters
+              notes={notes}
+              onWeekOverviewClick={() => setShowWeekOverview(true)}
+            />
             {dateFilter && (
               <div className="flex items-center gap-2 bg-yellow-100 px-3 py-1 rounded-lg">
                 <span className="text-sm font-medium text-gray-700">
@@ -527,6 +534,18 @@ export function Board({ onSignOut }: BoardProps) {
           onUpdateDeadlineType={handleUpdateDeadlineType}
           onToggleCompleet={handleToggleSelectedCompleet}
           onDelete={handleDelete}
+        />
+      )}
+
+      {/* Week overview modal */}
+      {showWeekOverview && (
+        <WeekOverview
+          notes={notes}
+          onClose={() => setShowWeekOverview(false)}
+          onNoteClick={(note) => {
+            setShowWeekOverview(false)
+            setSelectedNote(note)
+          }}
         />
       )}
     </div>
